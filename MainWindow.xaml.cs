@@ -11,7 +11,7 @@ using System.Data.SQLite;
 namespace StudyPortal
 {
     /// <summary>
-    /// Main window logic.
+    /// Логика главного окна.
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -48,7 +48,7 @@ namespace StudyPortal
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to initialize database: {ex.Message}", "Error",
+                MessageBox.Show($"Не удалось инициализировать базу данных: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -68,7 +68,7 @@ namespace StudyPortal
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load data: {ex.Message}", "Error",
+                MessageBox.Show($"Не удалось загрузить данные: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -275,14 +275,14 @@ namespace StudyPortal
             var name = CourseNameTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Enter a course name.", "Validation",
+                MessageBox.Show("Введите название курса.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!int.TryParse(DurationTextBox.Text.Trim(), out var duration))
             {
-                MessageBox.Show("Enter a numeric duration.", "Validation",
+                MessageBox.Show("Введите числовую продолжительность.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -290,7 +290,7 @@ namespace StudyPortal
             var teacherId = GetSelectedComboValue(CourseTeacherComboBox);
             if (teacherId == null)
             {
-                MessageBox.Show("Select a teacher.", "Validation",
+                MessageBox.Show("Выберите преподавателя.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -312,7 +312,7 @@ namespace StudyPortal
         {
             if (_selectedCourseId == null)
             {
-                MessageBox.Show("Select a course to update.", "Validation",
+                MessageBox.Show("Выберите курс для обновления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -320,14 +320,14 @@ namespace StudyPortal
             var name = CourseNameTextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Enter a course name.", "Validation",
+                MessageBox.Show("Введите название курса.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!int.TryParse(DurationTextBox.Text.Trim(), out var duration))
             {
-                MessageBox.Show("Enter a numeric duration.", "Validation",
+                MessageBox.Show("Введите числовую продолжительность.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -335,7 +335,7 @@ namespace StudyPortal
             var teacherId = GetSelectedComboValue(CourseTeacherComboBox);
             if (teacherId == null)
             {
-                MessageBox.Show("Select a teacher.", "Validation",
+                MessageBox.Show("Выберите преподавателя.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -362,12 +362,12 @@ namespace StudyPortal
         {
             if (_selectedCourseId == null)
             {
-                MessageBox.Show("Select a course to delete.", "Validation",
+                MessageBox.Show("Выберите курс для удаления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (MessageBox.Show("Delete selected course?", "Confirm",
+            if (MessageBox.Show("Удалить выбранный курс?", "Подтверждение",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
@@ -418,14 +418,14 @@ namespace StudyPortal
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                MessageBox.Show("Enter student first and last name.", "Validation",
+                MessageBox.Show("Введите имя и фамилию студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Enter student email.", "Validation",
+                MessageBox.Show("Введите email студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -433,7 +433,7 @@ namespace StudyPortal
             var courseId = GetSelectedComboValue(StudentCourseComboBox);
             if (courseId == null)
             {
-                MessageBox.Show("Select a course for the student.", "Validation",
+                MessageBox.Show("Выберите курс для студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -454,7 +454,7 @@ namespace StudyPortal
         {
             if (_selectedStudentId == null)
             {
-                MessageBox.Show("Select a student to update.", "Validation",
+                MessageBox.Show("Выберите студента для обновления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -465,14 +465,14 @@ namespace StudyPortal
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                MessageBox.Show("Enter student first and last name.", "Validation",
+                MessageBox.Show("Введите имя и фамилию студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
-                MessageBox.Show("Enter student email.", "Validation",
+                MessageBox.Show("Введите email студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -480,7 +480,7 @@ namespace StudyPortal
             var courseId = GetSelectedComboValue(StudentCourseComboBox);
             if (courseId == null)
             {
-                MessageBox.Show("Select a course for the student.", "Validation",
+                MessageBox.Show("Выберите курс для студента.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -506,12 +506,12 @@ namespace StudyPortal
         {
             if (_selectedStudentId == null)
             {
-                MessageBox.Show("Select a student to delete.", "Validation",
+                MessageBox.Show("Выберите студента для удаления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (MessageBox.Show("Delete selected student?", "Confirm",
+            if (MessageBox.Show("Удалить выбранного студента?", "Подтверждение",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
@@ -561,14 +561,14 @@ namespace StudyPortal
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                MessageBox.Show("Enter teacher first and last name.", "Validation",
+                MessageBox.Show("Введите имя и фамилию преподавателя.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(subject))
             {
-                MessageBox.Show("Enter a subject.", "Validation",
+                MessageBox.Show("Введите предмет.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -588,7 +588,7 @@ namespace StudyPortal
         {
             if (_selectedTeacherId == null)
             {
-                MessageBox.Show("Select a teacher to update.", "Validation",
+                MessageBox.Show("Выберите преподавателя для обновления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -599,14 +599,14 @@ namespace StudyPortal
 
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
             {
-                MessageBox.Show("Enter teacher first and last name.", "Validation",
+                MessageBox.Show("Введите имя и фамилию преподавателя.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(subject))
             {
-                MessageBox.Show("Enter a subject.", "Validation",
+                MessageBox.Show("Введите предмет.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -631,12 +631,12 @@ namespace StudyPortal
         {
             if (_selectedTeacherId == null)
             {
-                MessageBox.Show("Select a teacher to delete.", "Validation",
+                MessageBox.Show("Выберите преподавателя для удаления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (MessageBox.Show("Delete selected teacher?", "Confirm",
+            if (MessageBox.Show("Удалить выбранного преподавателя?", "Подтверждение",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
@@ -681,8 +681,8 @@ namespace StudyPortal
         {
             var dialog = new OpenFileDialog
             {
-                Title = "Select material file",
-                Filter = "All files (*.*)|*.*"
+                Title = "Выберите файл материала",
+                Filter = "Все файлы (*.*)|*.*"
             };
 
             if (dialog.ShowDialog() == true)
@@ -697,14 +697,14 @@ namespace StudyPortal
             var courseId = GetSelectedComboValue(MaterialCourseComboBox);
             if (courseId == null)
             {
-                MessageBox.Show("Select a course for the material.", "Validation",
+                MessageBox.Show("Выберите курс для материала.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(_selectedMaterialSourcePath) || !File.Exists(_selectedMaterialSourcePath))
             {
-                MessageBox.Show("Choose a file to attach.", "Validation",
+                MessageBox.Show("Выберите файл для прикрепления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -734,12 +734,12 @@ namespace StudyPortal
         {
             if (_selectedMaterialId == null)
             {
-                MessageBox.Show("Select a material to delete.", "Validation",
+                MessageBox.Show("Выберите материал для удаления.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (MessageBox.Show("Delete selected material?", "Confirm",
+            if (MessageBox.Show("Удалить выбранный материал?", "Подтверждение",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
@@ -785,7 +785,7 @@ namespace StudyPortal
         {
             if (string.IsNullOrWhiteSpace(_selectedMaterialStoredPath))
             {
-                MessageBox.Show("Select a material to open.", "Validation",
+                MessageBox.Show("Выберите материал для открытия.", "Проверка",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -796,7 +796,7 @@ namespace StudyPortal
 
             if (!File.Exists(fullPath))
             {
-                MessageBox.Show("Stored file not found on disk.", "Error",
+                MessageBox.Show("Сохранённый файл не найден на диске.", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }

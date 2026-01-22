@@ -8,7 +8,7 @@ using System.Data.SQLite;
 namespace StudyPortal
 {
     /// <summary>
-    /// Course students window logic.
+    /// Логика окна студентов курса.
     /// </summary>
     public partial class CourseStudentsWindow : Window
     {
@@ -41,7 +41,7 @@ namespace StudyPortal
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to load courses: {ex.Message}", "Error",
+                MessageBox.Show($"Не удалось загрузить курсы: {ex.Message}", "Ошибка",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
