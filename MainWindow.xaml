@@ -28,7 +28,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                     <TextBox Name="CourseSearchTextBox" Width="170" Margin="0,0,8,0" Height="42" />
                                     <Button Name="SearchCourseButton" Content="Поиск" Width="95"
-                                            Click="SearchCourseButton_Click" />
+                                            Click="SearchCourseButton_Click" Background="#FF4EA7FF" />
                                     <Button Name="ResetCourseSearchButton" Content="Сброс" Width="102" Margin="8,0,0,0"
                                             Click="ResetCourseSearchButton_Click" 
                                             Background="#757575"/>
@@ -50,10 +50,10 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                     <Button Content="Добавить" Width="193" Margin="0,0,8,0"
                                             Click="AddCourseButton_Click" 
-                                            Background="#388E3C"/>
-                                    <Button Content="Обновить" Width="192" Margin="0,0,8,0"
+                                            Background="#FF3198FD"/>
+                                    <Button Content="Обновить" Width="187" Margin="0,0,8,0"
                                             Click="UpdateCourseButton_Click" 
-                                            Background="#1976D2"/>
+                                            Background="#FFB9B9B9"/>
 
                                 </StackPanel>
 
@@ -61,15 +61,15 @@
 
                                     <Button Content="Удалить" Width="198" Margin="0,0,8,0"
                                             Click="DeleteCourseButton_Click" 
-                                            Background="#D32F2F"/>
+                                            Background="#FFB9B9B9"/>
                                     <Button Content="Очистить" Width="187"
                                             Click="ClearCourseFormButton_Click" 
-                                            Background="#757575"/>
+                                            Background="#FFB9B9B9"/>
                                 </StackPanel>
 
                                 <Button Content="Просмотр студентов курса" Margin="0,20,0,0"
                                         Click="OpenCourseStudentsWindow_Click" 
-                                        Background="#FF5722"/>
+                                        Background="#FFB9B9B9"/>
                             </StackPanel>
                         </ScrollViewer>
                     </Border>
@@ -125,19 +125,19 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                     <Button Content="Добавить" Width="143" Margin="0,0,8,0"
                                             Click="AddStudentButton_Click" 
-                                            Background="#388E3C"/>
+                                            Background="#FF4EA7FF"/>
                                     <Button Content="Обновить" Width="157"
                                             Click="UpdateStudentButton_Click" 
-                                            Background="#1976D2"/>
+                                            Background="#FFB9B9B9"/>
 
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                     <Button Content="Удалить" Width="143" Margin="0,0,8,0"
                                             Click="DeleteStudentButton_Click" 
-                                            Background="#D32F2F"/>
+                                            Background="#FFB9B9B9"/>
                                     <Button Content="Очистить" Width="152"
                                             Click="ClearStudentFormButton_Click" 
-                                            Background="#757575"/>
+                                            Background="#FFB9B9B9"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
@@ -190,10 +190,10 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                                     <Button Content="Добавить" Width="148" Margin="0,0,8,0"
                                             Click="AddTeacherButton_Click" 
-                                            Background="#388E3C"/>
+                                            Background="#FF4EA7FF"/>
                                     <Button Content="Обновить" Width="152" Margin="0,0,8,0"
                                             Click="UpdateTeacherButton_Click" 
-                                            Background="#1976D2"/>
+                                            Background="#FFB9B9B9"/>
 
                                 </StackPanel>
 
@@ -201,10 +201,10 @@
                                    
                                     <Button Content="Удалить" Width="148" Margin="0,0,8,0"
                                             Click="DeleteTeacherButton_Click" 
-                                            Background="#D32F2F"/>
+                                            Background="#FFB9B9B9"/>
                                     <Button Content="Очистить" Width="147"
                                             Click="ClearTeacherFormButton_Click" 
-                                            Background="#757575"/>
+                                            Background="#FFB9B9B9"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
@@ -254,20 +254,20 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
                                     <Button Content="Выбрать файл" Width="128" Margin="0,0,8,0"
                                             Click="ChooseMaterialFileButton_Click" 
-                                            Background="#FFD2D2D2"/>
+                                            Background="#FF4EA7FF" Cursor="Hand"/>
                                     <Button Content="Прикрепить" Width="112" Margin="0,0,8,0"
                                             Click="AttachMaterialButton_Click" 
-                                            Background="#388E3C"/>
+                                            Background="#FFB9B9B9"/>
 
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                                     <Button Content="Удалить" Width="88" Margin="0,0,8,0"
                                             Click="DeleteMaterialButton_Click" 
-                                            Background="#D32F2F"/>
+                                            Background="#FFB9B9B9"/>
                                     <Button Content="Очистить" Width="107"
                                             Click="ClearMaterialFormButton_Click" 
-                                            Background="#757575"/>
+                                            Background="#FFB9B9B9"/>
 
                                 </StackPanel>
 
@@ -275,7 +275,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
                                     <Button Content="Открыть файл" Width="135"
                                             Click="OpenMaterialFileButton_Click" 
-                                            Background="#1976D2"/>
+                                            Background="#FFB9B9B9"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
