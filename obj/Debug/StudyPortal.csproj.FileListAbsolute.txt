@@ -18,3 +18,4 @@ C:\Users\student\OneDrive\Рабочий стол\StudyPortal\obj\Debug\StudyPor
 C:\Users\student\OneDrive\Рабочий стол\StudyPortal\obj\Debug\StudyPortal.exe
 C:\Users\student\OneDrive\Рабочий стол\StudyPortal\obj\Debug\StudyPortal.pdb
 C:\Users\student\OneDrive\Рабочий стол\StudyPortal\bin\Debug\System.Data.SQLite.xml
+C:\Users\student\OneDrive\Рабочий стол\StudyPortal\obj\Debug\App.baml

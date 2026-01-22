@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS Courses (
     course_id INTEGER PRIMARY KEY AUTOINCREMENT,
     course_name TEXT NOT NULL,
     duration INTEGER,
-    teacher_id INTEGER
+    teacher_id INTEGER  
 );
 ```
 

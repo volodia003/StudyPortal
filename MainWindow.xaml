@@ -11,14 +11,14 @@
         Loaded="MainWindow_Loaded">
     <Grid>
         <TabControl Margin="10">
-            <TabItem Header="Курсы">
+            <TabItem Header="Курсы" Foreground="#FF1976D2">
                 <Grid Margin="15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,693,0" Grid.ColumnSpan="2">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
                         </Border.Effect>
@@ -26,10 +26,10 @@
                             <StackPanel>
                                 <TextBlock Text="Поиск курса" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                    <TextBox Name="CourseSearchTextBox" Width="170" Margin="0,0,8,0" />
-                                    <Button Name="SearchCourseButton" Content="Поиск" Width="70"
+                                    <TextBox Name="CourseSearchTextBox" Width="170" Margin="0,0,8,0" Height="42" />
+                                    <Button Name="SearchCourseButton" Content="Поиск" Width="95"
                                             Click="SearchCourseButton_Click" />
-                                    <Button Name="ResetCourseSearchButton" Content="Сброс" Width="70" Margin="8,0,0,0"
+                                    <Button Name="ResetCourseSearchButton" Content="Сброс" Width="102" Margin="8,0,0,0"
                                             Click="ResetCourseSearchButton_Click" 
                                             Background="#757575"/>
                                 </StackPanel>
@@ -37,10 +37,10 @@
                                 <Separator Margin="0,20,0,20" />
 
                                 <TextBlock Text="Название курса" FontWeight="Medium"/>
-                                <TextBox Name="CourseNameTextBox" />
+                                <TextBox Name="CourseNameTextBox" Height="50" />
 
                                 <TextBlock Text="Продолжительность (часы)" Margin="0,12,0,0" FontWeight="Medium"/>
-                                <TextBox Name="DurationTextBox" />
+                                <TextBox Name="DurationTextBox" Height="49" />
 
                                 <TextBlock Text="Преподаватель" Margin="0,12,0,0" FontWeight="Medium"/>
                                 <ComboBox Name="CourseTeacherComboBox"
@@ -48,16 +48,21 @@
                                           SelectedValuePath="teacher_id" />
 
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Добавить" Width="193" Margin="0,0,8,0"
                                             Click="AddCourseButton_Click" 
                                             Background="#388E3C"/>
-                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Обновить" Width="192" Margin="0,0,8,0"
                                             Click="UpdateCourseButton_Click" 
                                             Background="#1976D2"/>
-                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+
+                                    <Button Content="Удалить" Width="198" Margin="0,0,8,0"
                                             Click="DeleteCourseButton_Click" 
                                             Background="#D32F2F"/>
-                                    <Button Content="Очистить" Width="80"
+                                    <Button Content="Очистить" Width="187"
                                             Click="ClearCourseFormButton_Click" 
                                             Background="#757575"/>
                                 </StackPanel>
@@ -69,13 +74,13 @@
                         </ScrollViewer>
                     </Border>
 
-                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5">
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5" Margin="118,0,0,0">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
                         </Border.Effect>
                         <DataGrid Name="CoursesDataGrid" AutoGenerateColumns="False"
                                   IsReadOnly="True" SelectionMode="Single"
-                                  SelectionChanged="CoursesDataGrid_SelectionChanged">
+                                  SelectionChanged="CoursesDataGrid_SelectionChanged" Background="White">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding course_id}" Header="ID" Visibility="Collapsed" />
                                 <DataGridTextColumn Binding="{Binding course_name}" Header="Курс" Width="*" />
@@ -118,16 +123,19 @@
                                           SelectedValuePath="course_id" />
 
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Добавить" Width="143" Margin="0,0,8,0"
                                             Click="AddStudentButton_Click" 
                                             Background="#388E3C"/>
-                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Обновить" Width="157"
                                             Click="UpdateStudentButton_Click" 
                                             Background="#1976D2"/>
-                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button Content="Удалить" Width="143" Margin="0,0,8,0"
                                             Click="DeleteStudentButton_Click" 
                                             Background="#D32F2F"/>
-                                    <Button Content="Очистить" Width="80"
+                                    <Button Content="Очистить" Width="152"
                                             Click="ClearStudentFormButton_Click" 
                                             Background="#757575"/>
                                 </StackPanel>
@@ -162,7 +170,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0" Cursor="">
                         <Border.Effect>
                             <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
                         </Border.Effect>
@@ -180,16 +188,21 @@
                                 <TextBox Name="TeacherSubjectTextBox" />
 
                                 <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
-                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Добавить" Width="148" Margin="0,0,8,0"
                                             Click="AddTeacherButton_Click" 
                                             Background="#388E3C"/>
-                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                    <Button Content="Обновить" Width="152" Margin="0,0,8,0"
                                             Click="UpdateTeacherButton_Click" 
                                             Background="#1976D2"/>
-                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                   
+                                    <Button Content="Удалить" Width="148" Margin="0,0,8,0"
                                             Click="DeleteTeacherButton_Click" 
                                             Background="#D32F2F"/>
-                                    <Button Content="Очистить" Width="80"
+                                    <Button Content="Очистить" Width="147"
                                             Click="ClearTeacherFormButton_Click" 
                                             Background="#757575"/>
                                 </StackPanel>
@@ -239,22 +252,28 @@
                                 <TextBox Name="MaterialFilePathTextBox" IsReadOnly="True" />
 
                                 <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                                    <Button Content="Выбрать файл" Width="110" Margin="0,0,8,0"
+                                    <Button Content="Выбрать файл" Width="128" Margin="0,0,8,0"
                                             Click="ChooseMaterialFileButton_Click" 
-                                            Background="#FF5722"/>
-                                    <Button Content="Прикрепить" Width="90" Margin="0,0,8,0"
+                                            Background="#FFD2D2D2"/>
+                                    <Button Content="Прикрепить" Width="112" Margin="0,0,8,0"
                                             Click="AttachMaterialButton_Click" 
                                             Background="#388E3C"/>
-                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
-                                            Click="DeleteMaterialButton_Click" 
-                                            Background="#D32F2F"/>
+
                                 </StackPanel>
 
                                 <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                    <Button Content="Очистить" Width="90"
+                                    <Button Content="Удалить" Width="88" Margin="0,0,8,0"
+                                            Click="DeleteMaterialButton_Click" 
+                                            Background="#D32F2F"/>
+                                    <Button Content="Очистить" Width="107"
                                             Click="ClearMaterialFormButton_Click" 
                                             Background="#757575"/>
-                                    <Button Content="Открыть файл" Width="110" Margin="8,0,0,0"
+
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                    <Button Content="Открыть файл" Width="135"
                                             Click="OpenMaterialFileButton_Click" 
                                             Background="#1976D2"/>
                                 </StackPanel>
