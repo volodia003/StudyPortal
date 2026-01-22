@@ -3,23 +3,24 @@
 ## 1. Overview
 This project implements an educational portal for managing courses, students,
 teachers, and course materials. The application is built with C# (WPF) and
-PostgreSQL using the Npgsql driver.
+SQLite using the System.Data.SQLite driver.
 
 ## 2. Environment and Tools
 - C# (.NET Framework 4.8, WPF)
-- PostgreSQL (with pgAdmin)
-- Npgsql (PostgreSQL ADO.NET driver)
+- SQLite
+- System.Data.SQLite (SQLite ADO.NET driver)
 
 ## 3. Database Setup
-1. Create a database named `EduPortal` in PostgreSQL.
-2. Run the SQL script:
+1. SQLite uses a file database. The file `EduPortal.db` will be created
+   automatically in the application folder on first run.
+2. (Optional) Run the SQL script manually:
    - `Database/EduPortal.sql`
 
 Example:
 ```
 CREATE TABLE IF NOT EXISTS Courses (
-    course_id SERIAL PRIMARY KEY,
-    course_name VARCHAR(100) NOT NULL,
+    course_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    course_name TEXT NOT NULL,
     duration INTEGER,
     teacher_id INTEGER
 );
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Courses (
 ## 4. Connection String
 Edit `App.config`:
 ```
-Host=localhost;Port=5432;Database=EduPortal;Username=postgres;Password=your_password
+Data Source=EduPortal.db;Version=3;Foreign Keys=True;
 ```
 
 ## 5. GUI Description
@@ -52,7 +53,7 @@ Additional window:
 - **Add**: INSERT course into `Courses`
 - **Update**: UPDATE selected course
 - **Delete**: DELETE selected course
-- **Search**: filter courses by name (ILIKE)
+- **Search**: filter courses by name (LIKE + NOCASE)
 - **View students in course**: opens JOIN window
 
 ### Students
@@ -109,7 +110,7 @@ Add a screenshot of the main window after testing.
 Save as `screenshot.png` and include in the submission archive.
 
 ## 11. How to Run
-1. Install Npgsql via NuGet (Manage NuGet Packages).
+1. Install System.Data.SQLite via NuGet (Manage NuGet Packages).
 2. Update connection string in `App.config`.
-3. Run the SQL script to create tables.
+3. (Optional) Run the SQL script to create tables manually.
 4. Press F5 in Visual Studio.

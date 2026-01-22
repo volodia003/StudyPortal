@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using Npgsql;
+using System.Data.SQLite;
 
 namespace StudyPortal
 {
@@ -34,7 +34,7 @@ namespace StudyPortal
             var settings = ConfigurationManager.ConnectionStrings["EduPortal"];
             if (settings == null || string.IsNullOrWhiteSpace(settings.ConnectionString))
             {
-                return "Host=localhost;Port=5432;Database=EduPortal;Username=postgres;Password=your_password";
+                return "Data Source=EduPortal.db;Version=3;Foreign Keys=True;";
             }
 
             return settings.ConnectionString;
@@ -42,10 +42,15 @@ namespace StudyPortal
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            if (_connectionString.Contains("your_password"))
+            try
             {
-                MessageBox.Show("Update App.config with a real PostgreSQL password before using the app.",
-                    "Configuration", MessageBoxButton.OK, MessageBoxImage.Information);
+                EnsureSqliteSchema();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to initialize database: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             RefreshAllData();
@@ -65,6 +70,53 @@ namespace StudyPortal
             {
                 MessageBox.Show($"Failed to load data: {ex.Message}", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void EnsureSqliteSchema()
+        {
+            var statements = new[]
+            {
+                @"CREATE TABLE IF NOT EXISTS Teachers (
+                    teacher_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    first_name TEXT NOT NULL,
+                    last_name TEXT NOT NULL,
+                    subject TEXT NOT NULL
+                )",
+                @"CREATE TABLE IF NOT EXISTS Courses (
+                    course_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    course_name TEXT NOT NULL,
+                    duration INTEGER,
+                    teacher_id INTEGER REFERENCES Teachers(teacher_id) ON DELETE SET NULL
+                )",
+                @"CREATE TABLE IF NOT EXISTS Students (
+                    student_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    first_name TEXT NOT NULL,
+                    last_name TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    course_id INTEGER REFERENCES Courses(course_id) ON DELETE SET NULL
+                )",
+                @"CREATE TABLE IF NOT EXISTS CourseMaterials (
+                    material_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    course_id INTEGER NOT NULL REFERENCES Courses(course_id) ON DELETE CASCADE,
+                    file_name TEXT NOT NULL,
+                    file_path TEXT NOT NULL,
+                    uploaded_at TEXT NOT NULL DEFAULT (datetime('now'))
+                )",
+                "CREATE INDEX IF NOT EXISTS idx_courses_name ON Courses (course_name)",
+                "CREATE INDEX IF NOT EXISTS idx_students_course ON Students (course_id)",
+                "CREATE INDEX IF NOT EXISTS idx_materials_course ON CourseMaterials (course_id)"
+            };
+
+            using (var connection = new SQLiteConnection(_connectionString))
+            using (var command = new SQLiteCommand(connection))
+            {
+                connection.Open();
+                foreach (var statement in statements)
+                {
+                    command.CommandText = statement;
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
@@ -90,12 +142,12 @@ namespace StudyPortal
                                      LEFT JOIN Teachers t ON c.teacher_id = t.teacher_id";
 
             string sql;
-            NpgsqlParameter[] parameters = null;
+            SQLiteParameter[] parameters = null;
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                sql = baseSql + " WHERE c.course_name ILIKE @search ORDER BY c.course_name";
-                parameters = new[] { new NpgsqlParameter("search", $"%{searchTerm.Trim()}%") };
+                sql = baseSql + " WHERE c.course_name LIKE @search COLLATE NOCASE ORDER BY c.course_name";
+                parameters = new[] { new SQLiteParameter("search", $"%{searchTerm.Trim()}%") };
             }
             else
             {
@@ -143,17 +195,17 @@ namespace StudyPortal
             MaterialsDataGrid.ItemsSource = table.DefaultView;
         }
 
-        private DataTable GetDataTable(string sql, params NpgsqlParameter[] parameters)
+        private DataTable GetDataTable(string sql, params SQLiteParameter[] parameters)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            using (var command = new NpgsqlCommand(sql, connection))
+            using (var connection = new SQLiteConnection(_connectionString))
+            using (var command = new SQLiteCommand(sql, connection))
             {
                 if (parameters != null)
                 {
                     command.Parameters.AddRange(parameters);
                 }
 
-                using (var adapter = new NpgsqlDataAdapter(command))
+                using (var adapter = new SQLiteDataAdapter(command))
                 {
                     var table = new DataTable();
                     adapter.Fill(table);
@@ -162,10 +214,10 @@ namespace StudyPortal
             }
         }
 
-        private int ExecuteNonQuery(string sql, params NpgsqlParameter[] parameters)
+        private int ExecuteNonQuery(string sql, params SQLiteParameter[] parameters)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            using (var command = new NpgsqlCommand(sql, connection))
+            using (var connection = new SQLiteConnection(_connectionString))
+            using (var command = new SQLiteCommand(sql, connection))
             {
                 if (parameters != null)
                 {
@@ -245,9 +297,9 @@ namespace StudyPortal
 
             ExecuteNonQuery(
                 "INSERT INTO Courses (course_name, duration, teacher_id) VALUES (@name, @duration, @teacherId)",
-                new NpgsqlParameter("name", name),
-                new NpgsqlParameter("duration", duration),
-                new NpgsqlParameter("teacherId", teacherId));
+                new SQLiteParameter("name", name),
+                new SQLiteParameter("duration", duration),
+                new SQLiteParameter("teacherId", teacherId));
 
             LoadCourses(null);
             LoadCourseLookup();
@@ -294,10 +346,10 @@ namespace StudyPortal
                       duration = @duration,
                       teacher_id = @teacherId
                   WHERE course_id = @id",
-                new NpgsqlParameter("name", name),
-                new NpgsqlParameter("duration", duration),
-                new NpgsqlParameter("teacherId", teacherId),
-                new NpgsqlParameter("id", _selectedCourseId.Value));
+                new SQLiteParameter("name", name),
+                new SQLiteParameter("duration", duration),
+                new SQLiteParameter("teacherId", teacherId),
+                new SQLiteParameter("id", _selectedCourseId.Value));
 
             LoadCourses(null);
             LoadCourseLookup();
@@ -322,7 +374,7 @@ namespace StudyPortal
             }
 
             ExecuteNonQuery("DELETE FROM Courses WHERE course_id = @id",
-                new NpgsqlParameter("id", _selectedCourseId.Value));
+                new SQLiteParameter("id", _selectedCourseId.Value));
 
             LoadCourses(null);
             LoadCourseLookup();
@@ -389,10 +441,10 @@ namespace StudyPortal
             ExecuteNonQuery(
                 @"INSERT INTO Students (first_name, last_name, email, course_id)
                   VALUES (@firstName, @lastName, @email, @courseId)",
-                new NpgsqlParameter("firstName", firstName),
-                new NpgsqlParameter("lastName", lastName),
-                new NpgsqlParameter("email", email),
-                new NpgsqlParameter("courseId", courseId));
+                new SQLiteParameter("firstName", firstName),
+                new SQLiteParameter("lastName", lastName),
+                new SQLiteParameter("email", email),
+                new SQLiteParameter("courseId", courseId));
 
             LoadStudents();
             ClearStudentForm();
@@ -440,11 +492,11 @@ namespace StudyPortal
                       email = @email,
                       course_id = @courseId
                   WHERE student_id = @id",
-                new NpgsqlParameter("firstName", firstName),
-                new NpgsqlParameter("lastName", lastName),
-                new NpgsqlParameter("email", email),
-                new NpgsqlParameter("courseId", courseId),
-                new NpgsqlParameter("id", _selectedStudentId.Value));
+                new SQLiteParameter("firstName", firstName),
+                new SQLiteParameter("lastName", lastName),
+                new SQLiteParameter("email", email),
+                new SQLiteParameter("courseId", courseId),
+                new SQLiteParameter("id", _selectedStudentId.Value));
 
             LoadStudents();
             ClearStudentForm();
@@ -466,7 +518,7 @@ namespace StudyPortal
             }
 
             ExecuteNonQuery("DELETE FROM Students WHERE student_id = @id",
-                new NpgsqlParameter("id", _selectedStudentId.Value));
+                new SQLiteParameter("id", _selectedStudentId.Value));
 
             LoadStudents();
             ClearStudentForm();
@@ -523,9 +575,9 @@ namespace StudyPortal
 
             ExecuteNonQuery(
                 "INSERT INTO Teachers (first_name, last_name, subject) VALUES (@firstName, @lastName, @subject)",
-                new NpgsqlParameter("firstName", firstName),
-                new NpgsqlParameter("lastName", lastName),
-                new NpgsqlParameter("subject", subject));
+                new SQLiteParameter("firstName", firstName),
+                new SQLiteParameter("lastName", lastName),
+                new SQLiteParameter("subject", subject));
 
             LoadTeachers();
             LoadCourses(null);
@@ -565,10 +617,10 @@ namespace StudyPortal
                       last_name = @lastName,
                       subject = @subject
                   WHERE teacher_id = @id",
-                new NpgsqlParameter("firstName", firstName),
-                new NpgsqlParameter("lastName", lastName),
-                new NpgsqlParameter("subject", subject),
-                new NpgsqlParameter("id", _selectedTeacherId.Value));
+                new SQLiteParameter("firstName", firstName),
+                new SQLiteParameter("lastName", lastName),
+                new SQLiteParameter("subject", subject),
+                new SQLiteParameter("id", _selectedTeacherId.Value));
 
             LoadTeachers();
             LoadCourses(null);
@@ -591,7 +643,7 @@ namespace StudyPortal
             }
 
             ExecuteNonQuery("DELETE FROM Teachers WHERE teacher_id = @id",
-                new NpgsqlParameter("id", _selectedTeacherId.Value));
+                new SQLiteParameter("id", _selectedTeacherId.Value));
 
             LoadTeachers();
             LoadCourses(null);
@@ -670,9 +722,9 @@ namespace StudyPortal
             ExecuteNonQuery(
                 @"INSERT INTO CourseMaterials (course_id, file_name, file_path)
                   VALUES (@courseId, @fileName, @filePath)",
-                new NpgsqlParameter("courseId", courseId),
-                new NpgsqlParameter("fileName", originalFileName),
-                new NpgsqlParameter("filePath", relativePath));
+                new SQLiteParameter("courseId", courseId),
+                new SQLiteParameter("fileName", originalFileName),
+                new SQLiteParameter("filePath", relativePath));
 
             LoadMaterials();
             ClearMaterialForm();
@@ -694,7 +746,7 @@ namespace StudyPortal
             }
 
             ExecuteNonQuery("DELETE FROM CourseMaterials WHERE material_id = @id",
-                new NpgsqlParameter("id", _selectedMaterialId.Value));
+                new SQLiteParameter("id", _selectedMaterialId.Value));
 
             TryDeleteStoredMaterial();
             LoadMaterials();
