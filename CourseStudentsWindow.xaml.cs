@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using Npgsql;
+using System.Data.SQLite;
 
 namespace StudyPortal
 {
@@ -27,7 +27,7 @@ namespace StudyPortal
             var settings = ConfigurationManager.ConnectionStrings["EduPortal"];
             if (settings == null || string.IsNullOrWhiteSpace(settings.ConnectionString))
             {
-                return "Host=localhost;Port=5432;Database=EduPortal;Username=postgres;Password=your_password";
+                return "Data Source=EduPortal.db;Version=3;Foreign Keys=True;";
             }
 
             return settings.ConnectionString;
@@ -83,21 +83,21 @@ namespace StudyPortal
                   INNER JOIN Courses c ON s.course_id = c.course_id
                   WHERE c.course_id = @courseId
                   ORDER BY s.last_name, s.first_name",
-                new NpgsqlParameter("courseId", courseId));
+                new SQLiteParameter("courseId", courseId));
             CourseStudentsDataGrid.ItemsSource = table.DefaultView;
         }
 
-        private DataTable GetDataTable(string sql, params NpgsqlParameter[] parameters)
+        private DataTable GetDataTable(string sql, params SQLiteParameter[] parameters)
         {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            using (var command = new NpgsqlCommand(sql, connection))
+            using (var connection = new SQLiteConnection(_connectionString))
+            using (var command = new SQLiteCommand(sql, connection))
             {
                 if (parameters != null)
                 {
                     command.Parameters.AddRange(parameters);
                 }
 
-                using (var adapter = new NpgsqlDataAdapter(command))
+                using (var adapter = new SQLiteDataAdapter(command))
                 {
                     var table = new DataTable();
                     adapter.Fill(table);
