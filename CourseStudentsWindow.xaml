@@ -5,32 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyPortal"
         mc:Ignorable="d"
-        Title="Students in Course" Height="420" Width="720"
+        Title="Студенты курса" Height="480" Width="800"
         WindowStartupLocation="CenterOwner"
+        Background="#FAFAFA"
         Loaded="CourseStudentsWindow_Loaded">
-    <Grid Margin="10">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-            <TextBlock Text="Course" VerticalAlignment="Center" />
-            <ComboBox Name="CourseFilterComboBox" Width="300" Margin="8,0,0,0"
-                      DisplayMemberPath="course_name"
-                      SelectedValuePath="course_id"
-                      SelectionChanged="CourseFilterComboBox_SelectionChanged" />
-        </StackPanel>
+        <Border Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,15">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+            </Border.Effect>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Курс:" VerticalAlignment="Center" FontWeight="Medium" FontSize="14"/>
+                <ComboBox Name="CourseFilterComboBox" Width="350" Margin="12,0,0,0"
+                          DisplayMemberPath="course_name"
+                          SelectedValuePath="course_id"
+                          SelectionChanged="CourseFilterComboBox_SelectionChanged" />
+            </StackPanel>
+        </Border>
 
-        <DataGrid Name="CourseStudentsDataGrid" Grid.Row="1" AutoGenerateColumns="False"
-                  IsReadOnly="True" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding student_id}" Header="ID" Visibility="Collapsed" />
-                <DataGridTextColumn Binding="{Binding first_name}" Header="First Name" Width="180" />
-                <DataGridTextColumn Binding="{Binding last_name}" Header="Last Name" Width="180" />
-                <DataGridTextColumn Binding="{Binding email}" Header="Email" Width="220" />
-                <DataGridTextColumn Binding="{Binding course_name}" Header="Course" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="5">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+            </Border.Effect>
+            <DataGrid Name="CourseStudentsDataGrid" AutoGenerateColumns="False"
+                      IsReadOnly="True" SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding student_id}" Header="ID" Visibility="Collapsed" />
+                    <DataGridTextColumn Binding="{Binding first_name}" Header="Имя" Width="180" />
+                    <DataGridTextColumn Binding="{Binding last_name}" Header="Фамилия" Width="180" />
+                    <DataGridTextColumn Binding="{Binding email}" Header="Email" Width="250" />
+                    <DataGridTextColumn Binding="{Binding course_name}" Header="Курс" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
     </Grid>
 </Window>

@@ -5,212 +5,280 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StudyPortal"
         mc:Ignorable="d"
-        Title="Education Portal" Height="760" Width="1180"
+        Title="Образовательный портал" Height="760" Width="1180"
         WindowStartupLocation="CenterScreen"
+        Background="#FAFAFA"
         Loaded="MainWindow_Loaded">
     <Grid>
         <TabControl Margin="10">
-            <TabItem Header="Courses">
-                <Grid Margin="10">
+            <TabItem Header="Курсы">
+                <Grid Margin="15">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="Course search" FontWeight="SemiBold" />
-                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                <TextBox Name="CourseSearchTextBox" Width="200" Margin="0,0,6,0" />
-                                <Button Name="SearchCourseButton" Content="Search" Width="60"
-                                        Click="SearchCourseButton_Click" />
-                                <Button Name="ResetCourseSearchButton" Content="Reset" Width="60" Margin="6,0,0,0"
-                                        Click="ResetCourseSearchButton_Click" />
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="Поиск курса" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                    <TextBox Name="CourseSearchTextBox" Width="170" Margin="0,0,8,0" />
+                                    <Button Name="SearchCourseButton" Content="Поиск" Width="70"
+                                            Click="SearchCourseButton_Click" />
+                                    <Button Name="ResetCourseSearchButton" Content="Сброс" Width="70" Margin="8,0,0,0"
+                                            Click="ResetCourseSearchButton_Click" 
+                                            Background="#757575"/>
+                                </StackPanel>
+
+                                <Separator Margin="0,20,0,20" />
+
+                                <TextBlock Text="Название курса" FontWeight="Medium"/>
+                                <TextBox Name="CourseNameTextBox" />
+
+                                <TextBlock Text="Продолжительность (часы)" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="DurationTextBox" />
+
+                                <TextBlock Text="Преподаватель" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <ComboBox Name="CourseTeacherComboBox"
+                                          DisplayMemberPath="teacher_name"
+                                          SelectedValuePath="teacher_id" />
+
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                            Click="AddCourseButton_Click" 
+                                            Background="#388E3C"/>
+                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                            Click="UpdateCourseButton_Click" 
+                                            Background="#1976D2"/>
+                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+                                            Click="DeleteCourseButton_Click" 
+                                            Background="#D32F2F"/>
+                                    <Button Content="Очистить" Width="80"
+                                            Click="ClearCourseFormButton_Click" 
+                                            Background="#757575"/>
+                                </StackPanel>
+
+                                <Button Content="Просмотр студентов курса" Margin="0,20,0,0"
+                                        Click="OpenCourseStudentsWindow_Click" 
+                                        Background="#FF5722"/>
                             </StackPanel>
+                        </ScrollViewer>
+                    </Border>
 
-                            <Separator Margin="0,12,0,12" />
-
-                            <TextBlock Text="Course name" />
-                            <TextBox Name="CourseNameTextBox" />
-
-                            <TextBlock Text="Duration (hours)" Margin="0,8,0,0" />
-                            <TextBox Name="DurationTextBox" />
-
-                            <TextBlock Text="Teacher" Margin="0,8,0,0" />
-                            <ComboBox Name="CourseTeacherComboBox"
-                                      DisplayMemberPath="teacher_name"
-                                      SelectedValuePath="teacher_id" />
-
-                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                <Button Content="Add" Width="70" Margin="0,0,6,0"
-                                        Click="AddCourseButton_Click" />
-                                <Button Content="Update" Width="70" Margin="0,0,6,0"
-                                        Click="UpdateCourseButton_Click" />
-                                <Button Content="Delete" Width="70" Margin="0,0,6,0"
-                                        Click="DeleteCourseButton_Click" />
-                                <Button Content="Clear" Width="70"
-                                        Click="ClearCourseFormButton_Click" />
-                            </StackPanel>
-
-                            <Button Content="View students in course" Margin="0,12,0,0"
-                                    Click="OpenCourseStudentsWindow_Click" />
-                        </StackPanel>
-                    </ScrollViewer>
-
-                    <DataGrid Name="CoursesDataGrid" Grid.Column="1" AutoGenerateColumns="False"
-                              IsReadOnly="True" SelectionMode="Single"
-                              SelectionChanged="CoursesDataGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding course_id}" Header="ID" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding course_name}" Header="Course" Width="*" />
-                            <DataGridTextColumn Binding="{Binding duration}" Header="Duration (h)" Width="120" />
-                            <DataGridTextColumn Binding="{Binding teacher_id}" Header="Teacher Id" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding teacher_name}" Header="Teacher" Width="200" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <DataGrid Name="CoursesDataGrid" AutoGenerateColumns="False"
+                                  IsReadOnly="True" SelectionMode="Single"
+                                  SelectionChanged="CoursesDataGrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding course_id}" Header="ID" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding course_name}" Header="Курс" Width="*" />
+                                <DataGridTextColumn Binding="{Binding duration}" Header="Продолж. (ч)" Width="120" />
+                                <DataGridTextColumn Binding="{Binding teacher_id}" Header="ID препод." Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding teacher_name}" Header="Преподаватель" Width="200" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Students">
-                <Grid Margin="10">
+            <TabItem Header="Студенты">
+                <Grid Margin="15">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="First name" />
-                            <TextBox Name="StudentFirstNameTextBox" />
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="Данные студента" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+                                
+                                <TextBlock Text="Имя" FontWeight="Medium"/>
+                                <TextBox Name="StudentFirstNameTextBox" />
 
-                            <TextBlock Text="Last name" Margin="0,8,0,0" />
-                            <TextBox Name="StudentLastNameTextBox" />
+                                <TextBlock Text="Фамилия" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="StudentLastNameTextBox" />
 
-                            <TextBlock Text="Email" Margin="0,8,0,0" />
-                            <TextBox Name="StudentEmailTextBox" />
+                                <TextBlock Text="Email" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="StudentEmailTextBox" />
 
-                            <TextBlock Text="Course" Margin="0,8,0,0" />
-                            <ComboBox Name="StudentCourseComboBox"
-                                      DisplayMemberPath="course_name"
-                                      SelectedValuePath="course_id" />
+                                <TextBlock Text="Курс" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <ComboBox Name="StudentCourseComboBox"
+                                          DisplayMemberPath="course_name"
+                                          SelectedValuePath="course_id" />
 
-                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                <Button Content="Add" Width="70" Margin="0,0,6,0"
-                                        Click="AddStudentButton_Click" />
-                                <Button Content="Update" Width="70" Margin="0,0,6,0"
-                                        Click="UpdateStudentButton_Click" />
-                                <Button Content="Delete" Width="70" Margin="0,0,6,0"
-                                        Click="DeleteStudentButton_Click" />
-                                <Button Content="Clear" Width="70"
-                                        Click="ClearStudentFormButton_Click" />
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                            Click="AddStudentButton_Click" 
+                                            Background="#388E3C"/>
+                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                            Click="UpdateStudentButton_Click" 
+                                            Background="#1976D2"/>
+                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+                                            Click="DeleteStudentButton_Click" 
+                                            Background="#D32F2F"/>
+                                    <Button Content="Очистить" Width="80"
+                                            Click="ClearStudentFormButton_Click" 
+                                            Background="#757575"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </ScrollViewer>
+                        </ScrollViewer>
+                    </Border>
 
-                    <DataGrid Name="StudentsDataGrid" Grid.Column="1" AutoGenerateColumns="False"
-                              IsReadOnly="True" SelectionMode="Single"
-                              SelectionChanged="StudentsDataGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding student_id}" Header="ID" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding first_name}" Header="First Name" Width="160" />
-                            <DataGridTextColumn Binding="{Binding last_name}" Header="Last Name" Width="160" />
-                            <DataGridTextColumn Binding="{Binding email}" Header="Email" Width="200" />
-                            <DataGridTextColumn Binding="{Binding course_id}" Header="Course Id" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding course_name}" Header="Course" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <DataGrid Name="StudentsDataGrid" AutoGenerateColumns="False"
+                                  IsReadOnly="True" SelectionMode="Single"
+                                  SelectionChanged="StudentsDataGrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding student_id}" Header="ID" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding first_name}" Header="Имя" Width="160" />
+                                <DataGridTextColumn Binding="{Binding last_name}" Header="Фамилия" Width="160" />
+                                <DataGridTextColumn Binding="{Binding email}" Header="Email" Width="200" />
+                                <DataGridTextColumn Binding="{Binding course_id}" Header="ID курса" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding course_name}" Header="Курс" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Teachers">
-                <Grid Margin="10">
+            <TabItem Header="Преподаватели">
+                <Grid Margin="15">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="First name" />
-                            <TextBox Name="TeacherFirstNameTextBox" />
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="Данные преподавателя" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+                                
+                                <TextBlock Text="Имя" FontWeight="Medium"/>
+                                <TextBox Name="TeacherFirstNameTextBox" />
 
-                            <TextBlock Text="Last name" Margin="0,8,0,0" />
-                            <TextBox Name="TeacherLastNameTextBox" />
+                                <TextBlock Text="Фамилия" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="TeacherLastNameTextBox" />
 
-                            <TextBlock Text="Subject" Margin="0,8,0,0" />
-                            <TextBox Name="TeacherSubjectTextBox" />
+                                <TextBlock Text="Предмет" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="TeacherSubjectTextBox" />
 
-                            <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
-                                <Button Content="Add" Width="70" Margin="0,0,6,0"
-                                        Click="AddTeacherButton_Click" />
-                                <Button Content="Update" Width="70" Margin="0,0,6,0"
-                                        Click="UpdateTeacherButton_Click" />
-                                <Button Content="Delete" Width="70" Margin="0,0,6,0"
-                                        Click="DeleteTeacherButton_Click" />
-                                <Button Content="Clear" Width="70"
-                                        Click="ClearTeacherFormButton_Click" />
+                                <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button Content="Добавить" Width="80" Margin="0,0,8,0"
+                                            Click="AddTeacherButton_Click" 
+                                            Background="#388E3C"/>
+                                    <Button Content="Обновить" Width="80" Margin="0,0,8,0"
+                                            Click="UpdateTeacherButton_Click" 
+                                            Background="#1976D2"/>
+                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+                                            Click="DeleteTeacherButton_Click" 
+                                            Background="#D32F2F"/>
+                                    <Button Content="Очистить" Width="80"
+                                            Click="ClearTeacherFormButton_Click" 
+                                            Background="#757575"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </ScrollViewer>
+                        </ScrollViewer>
+                    </Border>
 
-                    <DataGrid Name="TeachersDataGrid" Grid.Column="1" AutoGenerateColumns="False"
-                              IsReadOnly="True" SelectionMode="Single"
-                              SelectionChanged="TeachersDataGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding teacher_id}" Header="ID" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding first_name}" Header="First Name" Width="200" />
-                            <DataGridTextColumn Binding="{Binding last_name}" Header="Last Name" Width="200" />
-                            <DataGridTextColumn Binding="{Binding subject}" Header="Subject" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <DataGrid Name="TeachersDataGrid" AutoGenerateColumns="False"
+                                  IsReadOnly="True" SelectionMode="Single"
+                                  SelectionChanged="TeachersDataGrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding teacher_id}" Header="ID" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding first_name}" Header="Имя" Width="200" />
+                                <DataGridTextColumn Binding="{Binding last_name}" Header="Фамилия" Width="200" />
+                                <DataGridTextColumn Binding="{Binding subject}" Header="Предмет" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Materials">
-                <Grid Margin="10">
+            <TabItem Header="Материалы">
+                <Grid Margin="15">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="340" />
+                        <ColumnDefinition Width="360" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
-                            <TextBlock Text="Course" />
-                            <ComboBox Name="MaterialCourseComboBox"
-                                      DisplayMemberPath="course_name"
-                                      SelectedValuePath="course_id" />
+                    <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="20" Margin="0,0,15,0">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="Учебные материалы" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,10"/>
+                                
+                                <TextBlock Text="Курс" FontWeight="Medium"/>
+                                <ComboBox Name="MaterialCourseComboBox"
+                                          DisplayMemberPath="course_name"
+                                          SelectedValuePath="course_id" />
 
-                            <TextBlock Text="File" Margin="0,8,0,0" />
-                            <TextBox Name="MaterialFilePathTextBox" IsReadOnly="True" />
+                                <TextBlock Text="Файл" Margin="0,12,0,0" FontWeight="Medium"/>
+                                <TextBox Name="MaterialFilePathTextBox" IsReadOnly="True" />
 
-                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                <Button Content="Choose file" Width="100" Margin="0,0,6,0"
-                                        Click="ChooseMaterialFileButton_Click" />
-                                <Button Content="Attach" Width="70" Margin="0,0,6,0"
-                                        Click="AttachMaterialButton_Click" />
-                                <Button Content="Delete" Width="70" Margin="0,0,6,0"
-                                        Click="DeleteMaterialButton_Click" />
-                                <Button Content="Clear" Width="70"
-                                        Click="ClearMaterialFormButton_Click" />
+                                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                                    <Button Content="Выбрать файл" Width="110" Margin="0,0,8,0"
+                                            Click="ChooseMaterialFileButton_Click" 
+                                            Background="#FF5722"/>
+                                    <Button Content="Прикрепить" Width="90" Margin="0,0,8,0"
+                                            Click="AttachMaterialButton_Click" 
+                                            Background="#388E3C"/>
+                                    <Button Content="Удалить" Width="80" Margin="0,0,8,0"
+                                            Click="DeleteMaterialButton_Click" 
+                                            Background="#D32F2F"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                                    <Button Content="Очистить" Width="90"
+                                            Click="ClearMaterialFormButton_Click" 
+                                            Background="#757575"/>
+                                    <Button Content="Открыть файл" Width="110" Margin="8,0,0,0"
+                                            Click="OpenMaterialFileButton_Click" 
+                                            Background="#1976D2"/>
+                                </StackPanel>
                             </StackPanel>
+                        </ScrollViewer>
+                    </Border>
 
-                            <Button Content="Open file" Margin="0,10,0,0"
-                                    Click="OpenMaterialFileButton_Click" />
-                        </StackPanel>
-                    </ScrollViewer>
-
-                    <DataGrid Name="MaterialsDataGrid" Grid.Column="1" AutoGenerateColumns="False"
-                              IsReadOnly="True" SelectionMode="Single"
-                              SelectionChanged="MaterialsDataGrid_SelectionChanged">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding material_id}" Header="ID" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding course_id}" Header="Course Id" Visibility="Collapsed" />
-                            <DataGridTextColumn Binding="{Binding course_name}" Header="Course" Width="200" />
-                            <DataGridTextColumn Binding="{Binding file_name}" Header="File name" Width="200" />
-                            <DataGridTextColumn Binding="{Binding file_path}" Header="Stored path" Width="*" />
-                            <DataGridTextColumn Binding="{Binding uploaded_at}" Header="Uploaded" Width="160" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="2" BlurRadius="8" Opacity="0.15" Direction="270"/>
+                        </Border.Effect>
+                        <DataGrid Name="MaterialsDataGrid" AutoGenerateColumns="False"
+                                  IsReadOnly="True" SelectionMode="Single"
+                                  SelectionChanged="MaterialsDataGrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding material_id}" Header="ID" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding course_id}" Header="ID курса" Visibility="Collapsed" />
+                                <DataGridTextColumn Binding="{Binding course_name}" Header="Курс" Width="200" />
+                                <DataGridTextColumn Binding="{Binding file_name}" Header="Имя файла" Width="200" />
+                                <DataGridTextColumn Binding="{Binding file_path}" Header="Путь к файлу" Width="*" />
+                                <DataGridTextColumn Binding="{Binding uploaded_at}" Header="Загружен" Width="160" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
                 </Grid>
             </TabItem>
         </TabControl>
